@@ -1,0 +1,55 @@
+      
+#include<stdio.h>
+
+int main()
+{
+    const int nrowsg=4320;
+    const int ncolsg=8640;
+    const double dlatg=2.5/60.0;
+    const double dlong=2.5/60.0;
+    double lat2,lon2,lat3,lon3;
+    char c,x[4],y[4];
+    float z1,z2;
+   
+   
+    FILE *eta = fopen("eta_cnt2.5x2.5_EGM08_to2190_WGS84_ell_nh","rb");
+    FILE *eta1 = fopen("resulteta.txt","w+");
+   
+    for(int k=3;k>-1;--k) x[k]=getc(et); //after reading the numbers, the program prints out in reverse order.
+    {
+    for(int i = 0;i<nrowsg;++i) for(int j=0;j<ncolsg;++j)
+    {
+        lat3 = 90.0 - i*dlatg - dlatg*0.5; // formulas from Fortran - Dov Data
+        lon3 = j*dlong + dlong*0.5;
+        for(int k=3 ; k>-1 ; --k) x[k]=getc(eta); //after reading the numbers, the program prints out in reverse order.
+        z1=*(float*)x; // convert  x[k] back to float
+        fprintf(eta1,"%lf  %lf  %f\n",lat3,lon3,z1);
+	  	  	   
+    }
+    }
+        
+    fclose(et);
+    fclose(eta);
+
+    FILE *xi = fopen("xi_cnt2.5x2.5_EGM08_to2190_WGS84_ell_nh","rb");
+    FILE *xi1 = fopen("resultxi.txt","w+");
+    for(int o=3;o>-1;--o) y[o]=getc(xi);
+    {
+    for(int t = 0;t<nrowsg;++t) for(int p=0;p<ncolsg;++p)
+    {
+        lat2 = 90.0 - t*dlatg - dlatg*0.5;
+        lon2 = p*dlong + dlong*0.5;
+        for(int o=3 ; o>-1 ; --o) y[o]=getc(xi);
+        z2=*(float*)y;
+        fprintf(xi1,"%lf  %lf  %f\n",lat2,lon2,z2);
+    }
+    }
+    
+    fclose(xi);
+    fclose(xi1);
+    return 0;
+}
+    
+
+
+
