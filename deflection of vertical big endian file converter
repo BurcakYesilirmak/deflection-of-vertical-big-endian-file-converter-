@@ -28,8 +28,8 @@ int main()
     }
     }
         
-    fclose(et);
     fclose(eta);
+    fclose(eta1);
 
     FILE *xi = fopen("xi_cnt2.5x2.5_EGM08_to2190_WGS84_ell_nh","rb");
     FILE *xi1 = fopen("resultxi.txt","w+");
